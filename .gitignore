@@ -1,0 +1,5 @@
+*.fcv
+*.txt
+*.exe
+/node_modules
+/backup

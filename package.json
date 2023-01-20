@@ -1,0 +1,18 @@
+{
+  "name": "fcv-script",
+  "version": "1.0.0",
+  "description": "Script for swapping bytes in .FCV animation files",
+  "main": "app.js",
+  "scripts": {
+    "pkg": "pkg app.js -t node18-win-x64"
+  },
+  "keywords": [
+    "converter"
+  ],
+  "author": "HardRain",
+  "license": "ISC",
+  "dependencies": {
+    "log4js": "^6.7.1",
+    "pkg": "^5.8.0"
+  }
+}
