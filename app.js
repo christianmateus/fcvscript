@@ -134,7 +134,7 @@ function swapData() {
    for (let bone = 0; bone < nodeList.length; bone++) {
 
       // 4:4:4 data type
-      if (arrayTypes.at(1 + (2 * bone)) == 0x00) {
+      if (arrayTypes.at(1 + (2 * bone)) >= 0x00 && arrayTypes.at(1 + (2 * bone)) < 0x10) {
          dataTypeLE1 = dataTypes[0][0]; dataTypeLE2 = dataTypes[0][1]; dataTypeLE3 = dataTypes[0][2];
          data1 = dataTypes[0][3]; data2 = dataTypes[0][4]; data3 = dataTypes[0][5];
          dataIterator = dataTypes[0][6];
@@ -144,7 +144,7 @@ function swapData() {
          writeDataIterator = writeDataTypes[0][6];
       }
       // 4:2:2 data type
-      if (arrayTypes.at(1 + (2 * bone)) == 0x10) {
+      if (arrayTypes.at(1 + (2 * bone)) >= 0x10 && arrayTypes.at(1 + (2 * bone)) < 0x20) {
          dataTypeLE1 = dataTypes[1][0]; dataTypeLE2 = dataTypes[1][1]; dataTypeLE3 = dataTypes[1][2];
          data1 = dataTypes[1][3]; data2 = dataTypes[1][4]; data3 = dataTypes[1][5];
          dataIterator = dataTypes[1][6];
@@ -154,7 +154,7 @@ function swapData() {
          writeDataIterator = writeDataTypes[1][6];
       }
       // 4:1:1 data type
-      if (arrayTypes.at(1 + (2 * bone)) == 0x20) {
+      if (arrayTypes.at(1 + (2 * bone)) >= 0x20 && arrayTypes.at(1 + (2 * bone)) < 0x30) {
          dataTypeLE1 = dataTypes[2][0]; dataTypeLE2 = dataTypes[2][1]; dataTypeLE3 = dataTypes[2][2];
          data1 = dataTypes[2][3]; data2 = dataTypes[2][4]; data3 = dataTypes[2][5];
          dataIterator = dataTypes[2][6];
@@ -271,7 +271,21 @@ function swapData() {
    }
 };
 swapData();
-fs.writeFileSync("test.fcv", file);
+
+// Updates file name-> pl; wep; em
+let fixedFilename = '';
+if (fcvFile.substring(0, 2) == "pl" || fcvFile.substring(0, 2) == "em") {
+   let filetype = fcvFile.substring(0, 4);
+   let fileNumber = fcvFile.substring(6, 9);
+   fixedFilename = filetype + "_" + fileNumber;
+} else if (fcvFile.substring(0, 3) == "wep") {
+   let filetype = fcvFile.substring(0, 5);
+   let fileNumber = fcvFile.substring(8, 10);
+   fixedFilename = filetype + "_" + fileNumber;
+   if (fixedFilename == "") { fixedFilename = "wep" }
+}
+
+fs.writeFileSync(`${fixedFilename}.fcv`, file);
 
 // Prevents the script from auto-closing
-require('child_process').spawnSync("pause", { shell: true, stdio: [0, 1, 2] });
+// require('child_process').spawnSync("pause", { shell: true, stdio: [0, 1, 2] });
